@@ -6,43 +6,63 @@ import "./Shop.css";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
-  const [cart,setCart] = useState([]);
+  const [cart, setCart] = useState([]);
 
+  useEffect(() => {
+    fetch("products.json")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
-  useEffect(()=>{
-    fetch('products.json')
-    .then(res=>res.json())
-    .then(data=>setProducts(data))
-  },[])
-
-  useEffect(()=>{
+  useEffect(() => {
     const loadProduct = getShoppingCart();
-    console.log(loadProduct)
-  },[])
+    const saveCart = [];
 
+    for (const id in loadProduct) {
+      const addedProducts = products.find((product) => product.id === id);
+      // console.log(addedProducts)
+      const quantity = loadProduct[id];
+      if (addedProducts) {
+        addedProducts.quantity = quantity;
+        saveCart.push(addedProducts);
+      }
 
-  const handleCart = (product)=>{
-    const newCart = [...cart,product]
+      // productsFind.quantity = Quantity;
+      // console.log(productsFind)
+    }
+
+    setCart(saveCart);
+  }, [products]);
+
+  const handleCart = (product) => {
+    let newSetCart = [];
+
+    const newExists = cart.find((pd) => pd.id === product.quantity);
+    if (!newExists) {
+      product.quantity = 1;
+      newSetCart = [...cart, product];
+    } else {
+      newExists.quantity = newExists.quantity + 1;
+      const remaining = cart.filter((pd) => pd.id !== product.quantity);
+      newSetCart = [...remaining, newExists];
+    }
+
+    const newCart = [...cart, product];
     setCart(newCart);
     addToDb(product.id);
-}
+  };
 
   return (
     <div>
       <div className="shop-container">
         <div className="products-item">
-
-          {
-            
-            products.map(product=><Product 
-                
-                key={product.id}
-                product = {product}
-                handleCart = {handleCart}
-            
-            ></Product>)
-
-            }
+          {products.map((product) => (
+            <Product
+              key={product.id}
+              product={product}
+              handleCart={handleCart}
+            ></Product>
+          ))}
         </div>
         <div className="list-item">
           <Cart cart={cart}></Cart>
