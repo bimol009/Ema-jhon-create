@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { addToDb, getShoppingCart } from "../../utilities/fakedb";
+import "./Shop.css";
 import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
-import "./Shop.css";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { addToDb, getShoppingCart } from "../../utilities/fakedb";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -16,11 +17,13 @@ const Shop = () => {
 
   useEffect(() => {
     const loadProduct = getShoppingCart();
+    // console.log(loadProduct)
     const saveCart = [];
 
     for (const id in loadProduct) {
+      console.log(id)
       const addedProducts = products.find((product) => product.id === id);
-      // console.log(addedProducts)
+      console.log(addedProducts)
       const quantity = loadProduct[id];
       if (addedProducts) {
         addedProducts.quantity = quantity;
@@ -33,6 +36,10 @@ const Shop = () => {
 
     setCart(saveCart);
   }, [products]);
+
+  const deleteAllShop = ()=>{
+    setCart([]);
+  }
 
   const handleCart = (product) => {
     let newSetCart = [];
@@ -65,7 +72,11 @@ const Shop = () => {
           ))}
         </div>
         <div className="list-item">
-          <Cart cart={cart}></Cart>
+          <Cart cart={cart} deleteAllShop={deleteAllShop}>
+            <Link to="/Orders">
+            <button className="btn-clear-cart">Review Order</button>
+            </Link>
+          </Cart>
         </div>
       </div>
     </div>

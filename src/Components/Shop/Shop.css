@@ -11,3 +11,28 @@
 
   
 }
+
+
+
+
+@media (max-width: 576px) { 
+  .shop-container {
+
+    grid-template-columns: repeat(1, 1fr); ;
+  }
+  
+  .products-item {
+
+    grid-template-columns: repeat(1, 1fr);
+    
+  }
+
+ }
+
+@media (min-width: 768px) {  }
+
+@media (min-width: 992px) {  }
+
+@media (min-width: 1200px) {  }
+
+@media (min-width: 1400px) {  }

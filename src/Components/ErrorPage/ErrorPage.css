@@ -1,0 +1,16 @@
+.oragne{
+    font-size: 62px;
+    color: orange;
+}
+
+.text{
+    font-size: 62px;
+}
+
+.majhkhan{
+    
+    display: flex;
+    justify-content: center;
+    margin: 250px auto;
+
+}

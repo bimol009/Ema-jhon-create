@@ -1,0 +1,70 @@
+import React, { useEffect, useState } from 'react';
+import './Blog.css'
+import Blogcontainer from '../blog-conatiner/Blogcontainer';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+const Blog = () => {
+    const[data,setData]=useState([]);
+    const[time,setTime]=useState(0);
+    const[bookmark,setBookmark]=useState([])
+    // toast-function
+    const notify = () => {
+      toast.info("Already added this !", {
+        position: toast.POSITION.TOP_CENTER
+      });
+    };
+
+    useEffect(()=>{
+            fetch('data.json')
+            .then(res=>res.json())
+            .then(data=>setData(data))
+    },[])
+    // time-handler-part
+    const handleaddCart=(data)=>{
+      setTime(time+data)
+    }
+
+   const check=(value)=>{
+      const data= bookmark.includes(value)
+      return data
+   }
+  //  toast-part
+    const bookmarkHandeler=(value)=>{
+      if(check(value)){
+        notify()
+      }
+      else{
+        setBookmark([...bookmark,value])
+      }
+    }
+
+    return (
+      
+        <div className='blog-container'>
+           <ToastContainer/>
+            <div className='left-container'>
+              {
+                data.map(datas => <Blogcontainer key={datas.id} data={datas} handleaddCart={handleaddCart}bookmarkHandeler={bookmarkHandeler}></Blogcontainer>)
+              }
+            </div>
+            <div className='right-container'>
+                <h3>Spent time on read : {time} min</h3>
+                <div>
+                  <h2>Bookmarked Blogs :{bookmark.length}</h2>
+                  <div className='right-side-card'>
+                    {
+                       bookmark.map(value=>{
+                         return <p key={value}>{value}</p>
+                       })
+                    }
+                  </div>
+                </div>
+            </div>
+
+        </div>
+         
+    );
+};
+
+export default Blog;

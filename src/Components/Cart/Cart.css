@@ -5,6 +5,25 @@
     height: 100%;
 }
 
+a{
+    text-decoration: none;
+}
+
 .cart-section p{
     font-size: 17px;
 }
+
+.btn-clear-cart{
+    width: 90%;
+    height: 56px;
+    font-size: 21px;
+    margin: 10px auto;
+    color: white;
+    justify-content: space-between;
+    display: flex;
+    border-radius: 4px;
+    background-color: #FF3030;
+    align-items: center;
+}
+
+
